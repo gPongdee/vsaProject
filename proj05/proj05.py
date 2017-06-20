@@ -1,36 +1,23 @@
-# Name:
-# Date:
+# Name: Gabriel Pongdee
+# Date: 6/20/17
 
 # proj05: functions and lists
 
 # Part I
 
-def divisors(num):
-    """
-    Takes a number and returns all divisors of the number, ordered least to greatest
-    :param num: int
-    :return: list (int)
-    """
-    return 0
+import random
+def main():
+    user_number = int(raw_input("Enter a number(i.e. 7)"))
+    count = [i for i in range(1, user_number +1 ) if user_number % i == 0]
+    prime = len(count)
+    if prime != 2:
+        print "Your number is not prime."
+        print "Your number's factors are " + str(count)
+    elif prime == 2:
+        print "Your number's factors are " + str(count)
+        print "Prime number detected"
 
-def prime(num):
-    """
-    Takes a number and returns True if the number is prime, otherwise False
-    :param num: int
-    :return: bool
-    """
-    return False
-
-# Part II
-
-def intersection(lst1, lst2):
-    """
-    Takes two lists and returns a list of the elements in common between the lists
-    :param lst1: list, any type
-    :param lst2: list, any type
-    :return: list, any type
-    """
-    return ["test"]
+print list(set([random.randrange(1, 20) for _ in range(0, random.randint(5, 45))]) and set([random.randrange(1, 20) for _ in range(0, random.randint(5, 45))]))
 
 # Part III
 
