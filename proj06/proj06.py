@@ -30,12 +30,14 @@ def load_words():
     return wordlist
 
 def choose_word(wordlist):
-    """
-    wordlist (list): list of words (strings)
-
-    Returns a word from wordlist at random
-    """
+    #  """
+    # wordlist (list): list of words (strings)
+    #
+    # Returns a word from wordlist at random
+    # """
     return random.choice(wordlist)
+
+
 
 # end of helper code
 # -----------------------------------
@@ -44,5 +46,14 @@ def choose_word(wordlist):
 # the wordlist variable so that it can be accessed from anywhere
 # in the program
 wordlist = load_words()
+x = random.choice(wordlist)
+choose_word(wordlist)
+
+list1 = []
+for letter in x:
+    list1.append(letter)
+
+print "I am thinking of a " + str(len(list1)) + " letter word."
+
 
 # your code begins here!
