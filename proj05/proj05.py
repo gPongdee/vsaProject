@@ -4,8 +4,10 @@
 # proj05: functions and lists
 
 # Part I
-
 import random
+
+
+
 def main():
     user_number = int(raw_input("Enter a number(i.e. 7)"))
     count = [i for i in range(1, user_number +1 ) if user_number % i == 0]
@@ -17,61 +19,48 @@ def main():
         print "Your number's factors are " + str(count)
         print "Prime number detected"
 
+main()
+
 print list(set([random.randrange(1, 20) for _ in range(0, random.randint(5, 45))]) and set([random.randrange(1, 20) for _ in range(0, random.randint(5, 45))]))
 
 # Part III
 
-def find_ab(side1, side2, side3):
-    """
-    Takes three side lengths an returns two smallest in a list
-    :param side1: int or float
-    :param side2: int or float
-    :param side3: int or float
-    :return: list of 2 ints or floats
-    """
-    return [0, 0]
+def rightTriangles():
+    side1 = float(raw_input("Please enter the length of the first side of your triangle(i.e. 7)."))
+    side2 = float(raw_input("Please enter the length of the second side of your triangle."))
+    side3 = float(raw_input("Please enter the length of the third side of your triangle."))
+    list1 = [side1, side2, side3]
+    list1.sort(key=int)
+    short_sides = [list1[0], list1[1]]
+    square_side_1 = short_sides[0] * short_sides[0]
+    square_side_2 = short_sides[1] * short_sides[1]
+    square_side_3 = list1[2] * list1[2]
 
-def find_c(side1, side2, side3):
-    """
-    Takes three side lengths an returns the largest
-    :param side1: int or float
-    :param side2: int or float
-    :param side3: int or float
-    :return: int or float
-    """
-    return 0
+    if square_side_1 + square_side_2 == square_side_3:
+        print "Yes, those three lengths can make a right triangle"
+        replay()
+    elif square_side_1 + square_side_2 != square_side_3:
+        print "No, those lengths can not form a right triangle"
+        replay()
 
-def square(side):
-    """
-    Takes a side length and returns the side length squared
-    :param side: int or float
-    :return: int or float
-    """
-    return 0
+def replay():
+    again = raw_input("Would you like to try a different combination(Yes or No)?").lower()
 
-def pythagorean(a,b,c):
-    """
-    Takes three side lengths and returns true if a^2 + b^2 = c^2, otherwise false
-    :param a: int or float
-    :param b: int or float
-    :param c: int or float
-    :return: bool
-    """
-    return False
+    if again == "yes" or again == "yeah" or again == "yep":
+        print "Ok"
+        rightTriangles()
+    elif again == "no" or again == "nope" or again == "nah":
+        print "Ok, bye"
+        quit()
+    else:
+        print "Sorry, didn't get that. Please try again."
 
-def is_right(side1, side2, side3):
-    """
-    Takes three side lengths and returns true if triangle is right
-    :param side1: int or float
-    :param side2: int or float
-    :param side3: int or float
-    :return: bool
-    """
-    return False
+rightTriangles()
+
 
 # TESTS
 # Feel free to add your own tests as needed!
-
+'''
 print ("Divisors Tests")
 # Test 1
 if divisors(1) == [1]:
@@ -152,4 +141,4 @@ else:
 if is_right(9, 3, 4):
     print("Test 12: FAIL")
 else:
-    print("Test 12: PASS")
+    print("Test 12: PASS")'''
