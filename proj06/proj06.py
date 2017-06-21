@@ -30,14 +30,12 @@ def load_words():
     return wordlist
 
 def choose_word(wordlist):
-    #  """
-    # wordlist (list): list of words (strings)
-    #
-    # Returns a word from wordlist at random
-    # """
+    """
+    wordlist (list): list of words (strings)
+
+    Returns a word from wordlist at random
+    """
     return random.choice(wordlist)
-
-
 
 # end of helper code
 # -----------------------------------
@@ -46,14 +44,22 @@ def choose_word(wordlist):
 # the wordlist variable so that it can be accessed from anywhere
 # in the program
 wordlist = load_words()
+
 x = random.choice(wordlist)
-choose_word(wordlist)
-
-list1 = []
+word = []
 for letter in x:
-    list1.append(letter)
+    word.append(letter)
+print word
+print "I am thinking of a " + str(len(word)) + " letter word"
 
-print "I am thinking of a " + str(len(list1)) + " letter word."
+def main():
+    lives = 6
+    while lives > 0:
+        player_guess = raw_input("Guess a letter(i.e. t)")
+        guesses_made = [player_guess]
+
+        print guesses_made
+main()
 
 
 # your code begins here!
