@@ -9,7 +9,7 @@ import string
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
-
+n = 7
 SCRABBLE_LETTER_VALUES = {
     'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k':
         5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u':
@@ -62,21 +62,23 @@ def get_frequency_dict(sequence):
 # Problem #1: Scoring a word
 #
 def get_word_score(word, n):
-    """
-    Returns the score for a word. Assumes the word is a
-    valid word.
 
-	The score for a word is the sum of the points for letters
-	in the word multiplied by the length of the word, plus 50
-	points if all n letters are used on the first go.
+    #player_word = raw_input("Please input a word using the letters in your hand: ").lower()
+    x = (word)
+    player_word = []
+    for letter in x:
+        player_word.append(letter)
+    print player_word
+    for i in range(0, len(player_word)):
+        player_word[i] = SCRABBLE_LETTER_VALUES.get(player_word[i], 0)
 
-	Letters are scored as in Scrabble; A is worth 1, B is
-	worth 3, C is worth 3, D is worth 2, E is worth 1, and so on.
+    if len(word) != n:
+        score = sum(player_word) * len(word)
+    elif len(word) == n:
+        score = (sum(player_word) * len(word)) + 50
+    print score
+    return score
 
-    word: string (lowercase letters)
-    returns: int >= 0
-    """
-    # TO DO...
     
 #
 # Make sure you understand how this function works and what it does!
@@ -113,6 +115,7 @@ def deal_hand(n):
     n: int >= 0
     returns: dictionary (string -> int)
     """
+
     hand={}
     num_vowels = n / 3
     
@@ -123,13 +126,23 @@ def deal_hand(n):
     for i in range(num_vowels, n):    
         x = CONSONANTS[random.randrange(0,len(CONSONANTS))]
         hand[x] = hand.get(x, 0) + 1
-        
+    print hand
     return hand
 
 #
 # Problem #2: Update a hand by removing letters
 #
 def update_hand(hand, word):
+
+
+
+
+
+
+
+
+
+
     """
     Assumes that 'hand' has all the letters in word.
 	In other words, this assumes that however many times
@@ -224,7 +237,9 @@ def play_game(word_list):
 
 #
 # Build data structures used for entire session and play game
-#
+
 if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
+
+deal_hand(n)
