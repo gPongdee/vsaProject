@@ -5,7 +5,7 @@
 
 import random
 import string
-
+from collections import Counter
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
@@ -133,6 +133,19 @@ def deal_hand(n):
 # Problem #2: Update a hand by removing letters
 #
 def update_hand(hand, word):
+    '''
+    hand = {"w": 5, "o": 2, "r": 1, "k": 7}
+    word = ['w', 'o', 'o', 'r', 'k', 'k']
+
+    var1 = Counter(word)
+    print var1
+
+    for i in range(0, len(word)):
+        l = var1[i]
+        hand[word[i]] -= l + 1
+
+    print hand
+    '''
 
 
 
@@ -243,3 +256,4 @@ if __name__ == '__main__':
     play_game(word_list)
 
 deal_hand(n)
+update_hand(hand, word)
