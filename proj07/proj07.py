@@ -68,7 +68,6 @@ def get_word_score(word, n):
     player_word = []
     for letter in x:
         player_word.append(letter)
-    print player_word
     for i in range(0, len(player_word)):
         player_word[i] = SCRABBLE_LETTER_VALUES.get(player_word[i], 0)
 
@@ -76,8 +75,8 @@ def get_word_score(word, n):
         score = sum(player_word) * len(word)
     elif len(word) == n:
         score = (sum(player_word) * len(word)) + 50
-    print score
     return score
+
 
     
 #
@@ -126,7 +125,6 @@ def deal_hand(n):
     for i in range(num_vowels, n):    
         x = CONSONANTS[random.randrange(0,len(CONSONANTS))]
         hand[x] = hand.get(x, 0) + 1
-    print hand
     return hand
 
 #
@@ -138,13 +136,12 @@ def update_hand(hand, word):
     word = ['w', 'o', 'o', 'r', 'k', 'k']
     '''
     var1 = Counter(word)
-    print var1
+    #print var1
 
     for i in range(0, len(word)):
         l = var1[i]
         hand[word[i]] -= l + 1
 
-    print hand
     return hand
 
 
@@ -178,30 +175,41 @@ def update_hand(hand, word):
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
-    hand_keys = []
-    word_count = Counter(word)
-    #print "List: wordCount", word_count
 
-    word_list1 = []
+    x = []
     for letter in word:
-        word_list1.append(letter)
-    #print "List: wordList", word_list1
+        x.append(letter)
+    y = "".join(x)
+    #print y
+    if y in word_list:
+        hand_keys = []
+        word_count = Counter(word)
+        # print "List: wordCount", word_count
 
-    for i in hand:
-        hand_keys.append(i)
-    #print "List: handKeys", hand_keys
+        word_list1 = []
+        for letter in word:
+            word_list1.append(letter)
+        # print "List: wordList", word_list1
+
+        for i in hand:
+            hand_keys.append(i)
+        # print "List: handKeys", hand_keys
 
 
-    for i in range(0, len(word_list1)):
+        for i in range(0, len(word_list1)):
 
-        if word_list1[i] not in hand_keys:
-            return False
-        elif word_list1[i] in hand:
-            if word_count[word_list1[i]] > hand[word_list1[i]]:
+            if word_list1[i] not in hand_keys:
                 return False
+            elif word_list1[i] in hand:
+                if word_count[word_list1[i]] > hand[word_list1[i]]:
+                    return False
 
-    if word_count[word_list1[i]] <= hand[word_list1[i]]:
-        return True
+        if word_count[word_list1[i]] <= hand[word_list1[i]]:
+            return True
+
+    else:
+        print "Input valid word please"
+        return False
 
 
 
@@ -232,9 +240,34 @@ def calculate_handlen(hand):
 #
 def play_hand(hand, word_list):
 
+    score_total = []
+    hand_value = []
+    display_hand(hand)
+    word = 'p'
+    while word != '.':
+        word = raw_input("Please enter a word using the letters in your hand: ")
+        score = get_word_score(word, n)
+        if word == '.':
+            print "Finish! Your score is ", sum(score_total)
+            break
+        elif is_valid_word(word, hand, word_list) == False:
+            print "That is an invalid word, please enter another one."
+            play_hand(hand, word_list)
+        elif is_valid_word(word, hand, word_list) == True:
+            var1 = update_hand(hand, word)
+            print var1
+            print score
+            score_total.append(score)
+
+        for i in hand:
+            hand_value.append(hand[i])
+
+        if sum(hand_value) == 0:
+            print "Hand Finished!"
+            print sum(score_total)
+            quit()
 
 
-    
 
     """
     Allows the user to play the given hand, as follows:
@@ -269,21 +302,46 @@ def play_hand(hand, word_list):
 # Make sure you understand how this code works!
 # 
 def play_game(word_list):
-    """
-    Allow the user to play an arbitrary number of hands.
+    again = raw_input("Would you like to play again? Enter n for a new random hand, enter r to replay the previous hand, enter e to exit the game. ")
+    hand = deal_hand(n)
+    if again == 'n':
+        print "Ok"
+        deal_hand(n)
+        play_hand(hand, word_list)
+    elif again == "r":
+        print "Ok"
+        play_hand(hand, word_list)
+    elif again == 'e':
+        print "OK, bye"
+    else:
+        print "Input a valid response"
+        quit()
 
-    * Asks the user to input 'n' or 'r' or 'e'.
 
-    * If the user inputs 'n', let the user play a new (random) hand.
-      When done playing the hand, ask the 'n' or 'e' question again.
 
-    * If the user inputs 'r', let the user play the last hand again.
 
-    * If the user inputs 'e', exit the game.
 
-    * If the user inputs anything else, ask them again.
-    """
-    # TO DO...
+
+
+
+
+
+
+"""
+Allow the user to play an arbitrary number of hands.
+
+* Asks the user to input 'n' or 'r' or 'e'.
+
+* If the user inputs 'n', let the user play a new (random) hand.
+    When done playing the hand, ask the 'n' or 'e' question again.
+
+* If the user inputs 'r', let the user play the last hand again.
+
+* If the user inputs 'e', exit the game.
+
+* If the user inputs anything else, ask them again.
+"""
+# TO DO...
 
 #
 # Build data structures used for entire session and play game
@@ -291,4 +349,3 @@ def play_game(word_list):
 if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
-
