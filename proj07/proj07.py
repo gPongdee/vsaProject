@@ -136,7 +136,7 @@ def update_hand(hand, word):
     '''
     hand = {"w": 5, "o": 2, "r": 1, "k": 7}
     word = ['w', 'o', 'o', 'r', 'k', 'k']
-
+    '''
     var1 = Counter(word)
     print var1
 
@@ -145,7 +145,8 @@ def update_hand(hand, word):
         hand[word[i]] -= l + 1
 
     print hand
-    '''
+    return hand
+
 
 
 
@@ -177,6 +178,38 @@ def update_hand(hand, word):
 # Problem #3: Test word validity
 #
 def is_valid_word(word, hand, word_list):
+    hand_keys = []
+    word_count = Counter(word)
+    #print "List: wordCount", word_count
+
+    word_list1 = []
+    for letter in word:
+        word_list1.append(letter)
+    #print "List: wordList", word_list1
+
+    for i in hand:
+        hand_keys.append(i)
+    #print "List: handKeys", hand_keys
+
+
+    for i in range(0, len(word_list1)):
+
+        if word_list1[i] not in hand_keys:
+            return False
+        elif word_list1[i] in hand:
+            if word_count[word_list1[i]] > hand[word_list1[i]]:
+                return False
+
+    if word_count[word_list1[i]] <= hand[word_list1[i]]:
+        return True
+
+
+
+
+
+
+
+
     """
     Returns True if word is in the word_list and is entirely
     composed of letters in the hand. Otherwise, returns False.
@@ -198,6 +231,10 @@ def calculate_handlen(hand):
 # Problem #4: Playing a hand
 #
 def play_hand(hand, word_list):
+
+
+
+    
 
     """
     Allows the user to play the given hand, as follows:
@@ -255,5 +292,3 @@ if __name__ == '__main__':
     word_list = load_words()
     play_game(word_list)
 
-deal_hand(n)
-update_hand(hand, word)
