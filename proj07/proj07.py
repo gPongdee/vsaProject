@@ -10,7 +10,7 @@ from perm import *
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
 HAND_SIZE = 7
-n = 7
+n = int(raw_input("What hand size do you want?(i.e. 7): "))
 SCRABBLE_LETTER_VALUES = {
     'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1, 'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8, 'k':
         5, 'l': 1, 'm': 3, 'n': 1, 'o': 1, 'p': 3, 'q': 10, 'r': 1, 's': 1, 't': 1, 'u':
@@ -363,12 +363,12 @@ def play_game(word_list, hand):
         hand = deal_hand(n)
         hand2 = hand_copy(hand)
         hand = hand2.copy()
-        play_hand(hand, word_list, hand2)
+        play_hand(hand, word_list, hand2, comp_choices)
     elif again == "r":
         hand2 = hand_copy(hand)
         hand = hand2.copy()
         print "Ok"
-        play_hand(hand, word_list, hand2)
+        play_hand(hand, word_list, hand2, comp_choices)
     elif again == 'e':
         print "OK, bye"
     else:
