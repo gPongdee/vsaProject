@@ -42,8 +42,25 @@ def process(url):
 # Part 1
 # Data structure design
 #======================
-
+class NewsStory(object):
+    def __init__(self, guid, title, subject, summary, link):
+        self.guid = ""
+        self.title = ""
+        self.subject = ""
+        self.summary = ""
+        self.link = ""
+    def get_guid(self):
+        return guid
+    def get_title(self):
+        return title
+    def get_subject(self):
+        return subject
+    def get_summary(self):
+        return summary
+    def get_link(self):
+        return link
 # Problem 1
+
 
 # TODO: NewsStory
 
@@ -53,7 +70,9 @@ def process(url):
 #======================
 
 class Trigger(object):
+    def __init__(self):
     def evaluate(self, story):
+
         """
         Returns True if an alert should be generated
         for the given news item, or False otherwise.
@@ -64,7 +83,8 @@ class Trigger(object):
 # Problems 2-5
 
 # TODO: WordTrigger
-
+class WordTrigger(Trigger):
+    def is_word_in(self):
 # TODO: TitleTrigger
 # TODO: SubjectTrigger
 # TODO: SummaryTrigger
