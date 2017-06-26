@@ -238,8 +238,7 @@ def calculate_handlen(hand):
 #
 # Problem #4: Playing a hand
 #
-def play_hand(hand, word_list):
-
+def play_hand(hand, word_list, hand2):
     score_total = []
     hand_value = []
     display_hand(hand)
@@ -249,13 +248,14 @@ def play_hand(hand, word_list):
         score = get_word_score(word, n)
         if word == '.':
             print "Finish! Your score is ", sum(score_total)
-            break
+            hand = hand2.copy()
+            play_game(word_list, hand)
         elif is_valid_word(word, hand, word_list) == False:
             print "That is an invalid word, please enter another one."
-            play_hand(hand, word_list)
+            continue
         elif is_valid_word(word, hand, word_list) == True:
-            var1 = update_hand(hand, word)
-            print var1
+            update_hand(hand, word)
+            display_hand(hand)
             print score
             score_total.append(score)
 
@@ -265,7 +265,13 @@ def play_hand(hand, word_list):
         if sum(hand_value) == 0:
             print "Hand Finished!"
             print sum(score_total)
-            quit()
+            hand = hand2.copy()
+            play_game(word_list, hand)
+
+
+def hand_copy(hand):
+    hand2 = hand.copy()
+    return hand2
 
 
 
@@ -301,16 +307,20 @@ def play_hand(hand, word_list):
 # Problem #5: Playing a game
 # Make sure you understand how this code works!
 # 
-def play_game(word_list):
+def play_game(word_list, hand):
+
     again = raw_input("Would you like to play again? Enter n for a new random hand, enter r to replay the previous hand, enter e to exit the game. ")
-    hand = deal_hand(n)
     if again == 'n':
         print "Ok"
-        deal_hand(n)
-        play_hand(hand, word_list)
+        hand = deal_hand(n)
+        hand2 = hand_copy(hand)
+        hand = hand2.copy()
+        play_hand(hand, word_list, hand2)
     elif again == "r":
+        hand2 = hand_copy(hand)
+        hand = hand2.copy()
         print "Ok"
-        play_hand(hand, word_list)
+        play_hand(hand, word_list, hand2)
     elif again == 'e':
         print "OK, bye"
     else:
@@ -347,5 +357,6 @@ Allow the user to play an arbitrary number of hands.
 # Build data structures used for entire session and play game
 
 if __name__ == '__main__':
+    hand = deal_hand(n)
     word_list = load_words()
-    play_game(word_list)
+    play_game(word_list, hand)
