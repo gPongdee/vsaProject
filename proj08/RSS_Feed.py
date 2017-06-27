@@ -44,21 +44,21 @@ def process(url):
 #======================
 class NewsStory(object):
     def __init__(self, guid, title, subject, summary, link):
-        self.guid = ""
-        self.title = ""
-        self.subject = ""
-        self.summary = ""
-        self.link = ""
+        self.guid = guid
+        self.title = title
+        self.subject = subject
+        self.summary = summary
+        self.link = link
     def get_guid(self):
-        return guid
+        return self.guid
     def get_title(self):
-        return title
+        return self.title
     def get_subject(self):
-        return subject
+        return self.subject
     def get_summary(self):
-        return summary
+        return self.summary
     def get_link(self):
-        return link
+        return self.link
 # Problem 1
 
 
@@ -70,8 +70,8 @@ class NewsStory(object):
 #======================
 
 class Trigger(object):
-    def __init__(self):
     def evaluate(self, story):
+
 
         """
         Returns True if an alert should be generated
@@ -84,8 +84,29 @@ class Trigger(object):
 
 # TODO: WordTrigger
 class WordTrigger(Trigger):
-    def is_word_in(self):
-# TODO: TitleTrigger
+    def __init__(self, word):
+        self.word = word.lower()
+    def get_word(self, word):
+        return self.word
+
+    def is_word_in(self, story):
+
+        if self.word not in story.lower().split():
+            return False
+
+        return True
+
+
+
+class TitleTrigger(WordTrigger):
+    def evaluate(self, story):
+        title = story.get_title()
+        punc = string.punctuation.replace("", " ").split()
+        for item in punc:
+            if item in title:
+                title = title.replace(item, "")
+                print title.split()
+        return self.is_word_in(title)
 # TODO: SubjectTrigger
 # TODO: SummaryTrigger
 
