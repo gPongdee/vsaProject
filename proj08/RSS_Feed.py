@@ -90,10 +90,12 @@ class WordTrigger(Trigger):
         return self.word
 
     def is_word_in(self, story):
-
+        punc = string.punctuation.replace("", " ").split()
+        for item in punc:
+            if item in story:
+                story = story.replace(item, " ")
         if self.word not in story.lower().split():
             return False
-
         return True
 
 
@@ -101,28 +103,70 @@ class WordTrigger(Trigger):
 class TitleTrigger(WordTrigger):
     def evaluate(self, story):
         title = story.get_title()
-        punc = string.punctuation.replace("", " ").split()
-        for item in punc:
-            if item in title:
-                title = title.replace(item, "")
-                print title.split()
+
         return self.is_word_in(title)
 # TODO: SubjectTrigger
+class SubjectTrigger(WordTrigger):
+    def evaluate(self, story):
+        subject = story.get_subject()
+
+        return self.is_word_in(subject)
 # TODO: SummaryTrigger
+class SummaryTrigger(WordTrigger):
+    def evaluate(self, story):
+        summary = story.get_summary()
+
+        return self.is_word_in(summary)
 
 
 # Composite Triggers
 # Problems 6-8
 
 # TODO: NotTrigger
-# TODO: AndTrigger
-# TODO: OrTrigger
+class NotTrigger(Trigger):
+    def __init__(self, trigger):
+        self.trigger = trigger
+    def evaluate(self, story):
+        if self.trigger.evaluate(story) == True:
+            return False
+        else:
+            return True
 
+# TODO: AndTrigger
+class AndTrigger(Trigger):
+    def __init__(self, trigger1, trigger2):
+        self.trigger1 = trigger1
+        self.trigger2 = trigger2
+    def evaluate(self, story):
+        if self.trigger1.evaluate(story) == True and self.trigger2.evaluate(story) == True:
+            return True
+        else:
+            return False
+# TODO: OrTrigger
+class OrTrigger(Trigger):
+    def __init__(self, trigger1, trigger2):
+        self.trigger1 = trigger1
+        self.trigger2 = trigger2
+    def evaluate(self, story):
+        if self.trigger1.evaluate(story) == True or self.trigger2.evaluate(story) == True:
+            return True
+        else:
+            return False
 
 # Phrase Trigger
 # Question 9
 
 # TODO: PhraseTrigger
+class PhraseTrigger(Trigger):
+    def __init__(self, phrase):
+        self.phrase = phrase
+    def get_phrase(self, phrase):
+        return self.phrase
+
+    def evaluate(self, story):
+        if self.phrase in story.get_title() or self.phrase in story.get_summary() or self.phrase in story.get_subject():
+            return True
+        return False
 
 
 #======================
@@ -131,6 +175,13 @@ class TitleTrigger(WordTrigger):
 #======================
 
 def filter_stories(stories, triggerlist):
+    correct_stories = []
+    for story in stories:
+        for trigger in triggerlist:
+            if trigger.evaluate(story) == True:
+                correct_stories.append(story)
+    return correct_stories
+
     """
     Takes in a list of NewsStory-s.
     Returns only those stories for whom
@@ -139,7 +190,6 @@ def filter_stories(stories, triggerlist):
     # TODO: Problem 10
     # This is a placeholder (we're just returning all the stories, with no filtering) 
     # Feel free to change this line!
-    return stories
 
 #======================
 # Extensions: Part 4
@@ -173,11 +223,13 @@ import thread
 def main_thread(p):
     # A sample trigger list - you'll replace
     # this with something more configurable in Problem 11
-    t1 = SubjectTrigger("Trump")
-    t2 = SummaryTrigger("Vanderbilt")
-    t3 = PhraseTrigger("Net Neutrality")
+    lol = raw_input("What do you want to know about?: ")
+    t1 = SubjectTrigger(lol)
+    t2 = SummaryTrigger(lol)
+    t3 = PhraseTrigger(lol)
     t4 = OrTrigger(t2, t3)
-    triggerlist = [t1, t4]
+    t5 = TitleTrigger(lol)
+    triggerlist = [t1, t4, t5]
     
     # TODO: Problem 11
     # After implementing readTriggerConfig, uncomment this line 
