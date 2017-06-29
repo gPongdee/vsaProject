@@ -167,6 +167,7 @@ class StandardRobot(Robot):
 
         new_pos = self.position.getNewPosition(self.direction, self.speed)
         if self.room.isPositionInRoom(new_pos) == False:
+            print "Bounce"
             self.setRobotDirection()
         else:
             self.setRobotPosition(new_pos)
@@ -186,18 +187,19 @@ for step in range(10):
 
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                   robot_type):
+    results = []
     for i in range(0, num_trials):
         anim = proj09_visualize.RobotVisualization(num_robots, width, height)
         room = RectangularRoom(width, height)
-        results = []
+
         robots=[]
 
         for num in range(0, num_robots):
-            robot = robot_type(room, speed)
-            robot.position = room.getRandomPosition()
-            robot.setRobotDirection()
-            robot.direction = robot.getRobotDirection()
-            robots.append(robot)
+            #robot = StandardRobot(room, speed)
+            #robot.position = room.getRandomPosition()
+            #robot.setRobotDirection()
+            #robot.direction = robot.getRobotDirection()
+            robots.append(StandardRobot(room, speed))
 
 
             #print "Trial Number: ", i + 1
@@ -205,11 +207,15 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
             time = 0
 
             while len(room.cleaned) < (room.getNumTiles() * min_coverage):
-                robot.updatePositionAndClean()
+                for robot in robots:
+                    robot.updatePositionAndClean()
+                anim.update(room, robots)
                 print len(room.cleaned)
                 print room.getNumTiles()
-                anim.update(room, robots)
+
+                time = time + 1
             results.append(time)
+
             anim.done()
     avg = sum(results) / len(results)
     print results
