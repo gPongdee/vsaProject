@@ -7,6 +7,7 @@ import random
 
 import proj09_visualize
 import pylab
+import proj09_visualize
 
 # === Provided classes
 
@@ -139,14 +140,21 @@ class Robot(object):
         direction = random.choice(degrees)
         self.direction = float(direction)
 
-    '''def updatePositionAndClean(self):
-        """
+    def updatePositionAndClean(self):
+
+        """new_pos = self.position.getNewPosition(self.direction, self.speed)
+        if self.room.isPositionInRoom(new_pos) == False:
+            self.setRobotDirection()
+        else:
+            self.setRobotPosition(new_pos)
+            self.room.cleanTileAtPosition(new_pos)
+
         Simulate the raise passage of a single time-step.
 
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError'''
+        raise NotImplementedError
 
 class StandardRobot(Robot):
     """
@@ -178,14 +186,37 @@ for step in range(10):
 
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
                   robot_type):
-    room=RectangularRoom(width, height)
-    cleaned=[]
-    for i in range(num_trials):
-        while (len(cleaned)/room.getNumTiles()) < min_coverage:
-            position= room.getRamdomPosition()
+    for i in range(0, num_trials):
+        anim = proj09_visualize.RobotVisualization(num_robots, width, height)
+        room = RectangularRoom(width, height)
+        results = []
+        robots=[]
+
+        for num in range(0, num_robots):
+            robot = robot_type(room, speed)
+            robot.position = room.getRandomPosition()
+            robot.setRobotDirection()
+            robot.direction = robot.getRobotDirection()
+            robots.append(robot)
 
 
-    """
+            #print "Trial Number: ", i + 1
+        for i in range(0, num_robots):
+            time = 0
+
+            while len(room.cleaned) < (room.getNumTiles() * min_coverage):
+                robot.updatePositionAndClean()
+                print len(room.cleaned)
+                print room.getNumTiles()
+                anim.update(room, robots)
+            results.append(time)
+            anim.done()
+    avg = sum(results) / len(results)
+    print results
+    print avg
+    return avg
+
+'''
     Runs NUM_TRIALS trials of the simulation and returns the mean number of
     time-steps needed to clean the fraction MIN_COVERAGE of the room.
 
@@ -200,8 +231,8 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     num_trials: an int (num_trials > 0)
     robot_type: class of robot to be instantiated (e.g. Robot or
                 RandomWalkRobot)
-    """
-    raise NotImplementedError
+'''
+runSimulation(1, 1.0, 10, 10, 0.9, 1, StandardRobot)
 
 
 # === Problem 4
